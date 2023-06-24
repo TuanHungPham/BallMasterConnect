@@ -1,5 +1,6 @@
 public enum EventID
 {
     BALL_SELECTING,
+    BALL_CONNECTING,
     BALL_RELEASING
 }
