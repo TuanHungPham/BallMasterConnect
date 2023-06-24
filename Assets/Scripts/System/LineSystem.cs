@@ -9,8 +9,6 @@ public class LineSystem : MonoBehaviour
     #endregion
 
     #region private
-    [SerializeField] private Vector3 startDragPoint;
-    [SerializeField] private Vector3 endDragPoint;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private List<Vector3> linePointArray;
     #endregion
@@ -37,23 +35,27 @@ public class LineSystem : MonoBehaviour
 
     private void ListenEvent()
     {
-        EventManager.StartListening(EventID.BALL_SELECTING.ToString(), StartDrawLine);
         EventManager.StartListening(EventID.BALL_RELEASING.ToString(), ResetLine);
     }
 
-    private void StartDrawLine()
+    private void Update()
     {
-        startDragPoint = Input.mousePosition;
-        linePointArray.Add(startDragPoint);
-
-        lineRenderer.SetPositions(linePointArray.ToArray());
+        DrawConnectedLine();
     }
 
     private void DrawConnectedLine()
     {
-        Vector3 currentMousePos = Input.mousePosition;
+        linePointArray.Clear();
 
-        linePointArray.Add(currentMousePos);
+        foreach (var ball in ConnectGameplayManager.Instance.SelectedBallList)
+        {
+            if (linePointArray.Contains(ball.transform.position)) continue;
+
+            linePointArray.Add(ball.transform.position);
+        }
+
+        lineRenderer.positionCount = linePointArray.Count;
+        lineRenderer.SetPositions(linePointArray.ToArray());
     }
 
     private void ResetLine()

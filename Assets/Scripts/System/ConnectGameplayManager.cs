@@ -8,6 +8,7 @@ public class ConnectGameplayManager : MonoBehaviour
 
     #region public
     public bool IsDragging { get => isDragging; set => isDragging = value; }
+    public List<GameObject> SelectedBallList { get => selectedBallList; set => selectedBallList = value; }
     #endregion
 
     #region private
@@ -17,6 +18,8 @@ public class ConnectGameplayManager : MonoBehaviour
     [SerializeField] private GameObject firstBall;
     [SerializeField] private GameObject previousBall;
     [SerializeField] private GameObject currentSelectedBall;
+    [SerializeField] private GameObject currentPointBall;
+    [SerializeField] private BallType currentSelectedBallType;
 
     [Space(20)]
     [SerializeField] private List<GameObject> selectedBallList = new List<GameObject>();
@@ -51,27 +54,89 @@ public class ConnectGameplayManager : MonoBehaviour
     private void ListenEvent()
     {
         EventManager.StartListening(EventID.BALL_SELECTING.ToString(), SetBallSelectGameState);
-        EventManager.StartListening(EventID.BALL_RELEASING.ToString(), SetBallReleaseGameState);
+        EventManager.StartListening(EventID.BALL_RELEASING.ToString(), ClearAllSelectedBall);
         EventManager.StartListening(EventID.BALL_CONNECTING.ToString(), ConnectBall);
     }
 
-    private void SetBallReleaseGameState()
+    private void ClearAllSelectedBall()
     {
         isDragging = false;
-        selectedBallList.Clear();
+        SelectedBallList.Clear();
+
+        firstBall = null;
+        currentSelectedBall = null;
+        previousBall = null;
+        currentPointBall = null;
+
+        EventManager.EmitEvent(EventID.CLEARING_SELECTED_BALL.ToString());
     }
 
     private void SetBallSelectGameState()
     {
         firstBall = (GameObject)EventManager.GetData(EventID.BALL_SELECTING.ToString());
-        selectedBallList.Add(firstBall);
+
+        Ball ballScript = firstBall.GetComponent<Ball>();
+
+        currentSelectedBallType = ballScript.BallType;
+        ballScript.SelectBall();
+
+        SelectedBallList.Add(firstBall);
 
         isDragging = true;
     }
 
     private void ConnectBall()
     {
-        currentSelectedBall = (GameObject)EventManager.GetData(EventID.BALL_CONNECTING.ToString());
-        selectedBallList.Add(firstBall);
+        currentPointBall = (GameObject)EventManager.GetData(EventID.BALL_CONNECTING.ToString());
+        Ball ballScript = currentPointBall.GetComponent<Ball>();
+
+        if (!CanConnect(ballScript) || currentPointBall == currentSelectedBall) return;
+
+        if (currentPointBall == previousBall)
+        {
+            ConnectBackThePreviousBall();
+            return;
+        }
+
+        if (selectedBallList.Contains(currentPointBall)) return;
+
+        ConnectTheCurrentBall(ballScript);
+    }
+
+    private void ConnectTheCurrentBall(Ball ballScript)
+    {
+        SelectedBallList.Add(currentPointBall);
+        ballScript.SelectBall();
+
+        currentSelectedBall = currentPointBall;
+        int index = selectedBallList.IndexOf(currentPointBall);
+        previousBall = selectedBallList[index - 1];
+    }
+
+    private void ConnectBackThePreviousBall()
+    {
+        if (previousBall == firstBall)
+        {
+            ClearAllSelectedBall();
+            return;
+        }
+
+        int index = 0;
+        Ball newBallScript = currentSelectedBall.GetComponent<Ball>();
+        newBallScript.DeselectBall();
+
+        selectedBallList.Remove(currentSelectedBall);
+
+        currentSelectedBall = previousBall;
+
+        index = selectedBallList.IndexOf(currentPointBall);
+        previousBall = selectedBallList[index - 1];
+    }
+
+    private bool CanConnect(Ball ballScript)
+    {
+        if (ballScript.BallType == currentSelectedBallType) return true;
+
+        return false;
     }
 }

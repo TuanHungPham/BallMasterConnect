@@ -1,20 +1,41 @@
 using UnityEngine;
 using TigerForge;
+using System;
 
 public class Ball : MonoBehaviour
 {
     #region public
     public bool IsSelected { get => isSelected; set => isSelected = value; }
+    public BallType BallType { get => ballType; set => ballType = value; }
     #endregion
 
     #region private
     [SerializeField] private bool isSelected;
+    [SerializeField] private BallType ballType;
     #endregion
+
+    private void Start()
+    {
+        ListenEvent();
+    }
+
+    private void ListenEvent()
+    {
+        EventManager.StartListening(EventID.CLEARING_SELECTED_BALL.ToString(), DeselectBall);
+    }
+
+    public void SelectBall()
+    {
+        IsSelected = true;
+    }
+
+    public void DeselectBall()
+    {
+        IsSelected = false;
+    }
 
     private void OnMouseDown()
     {
-        IsSelected = true;
-
         EventManager.SetData(EventID.BALL_SELECTING.ToString(), this.gameObject);
         EventManager.EmitEvent(EventID.BALL_SELECTING.ToString());
 
@@ -23,8 +44,6 @@ public class Ball : MonoBehaviour
 
     private void OnMouseUp()
     {
-        IsSelected = false;
-
         EventManager.EmitEvent(EventID.BALL_RELEASING.ToString());
     }
 
@@ -34,11 +53,5 @@ public class Ball : MonoBehaviour
 
         EventManager.SetData(EventID.BALL_CONNECTING.ToString(), this.gameObject);
         EventManager.EmitEvent(EventID.BALL_CONNECTING.ToString());
-
-        Debug.Log($"Mouse move through {gameObject.name}");
-    }
-
-    private void OnMouseExit()
-    {
     }
 }

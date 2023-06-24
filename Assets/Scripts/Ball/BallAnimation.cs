@@ -38,6 +38,8 @@ public class BallAnimation : MonoBehaviour
     {
         EventManager.StartListening(EventID.BALL_SELECTING.ToString(), SetSelectedAnimation);
         EventManager.StartListening(EventID.BALL_RELEASING.ToString(), SetSelectedAnimation);
+        EventManager.StartListening(EventID.BALL_CONNECTING.ToString(), SetSelectedAnimation);
+        EventManager.StartListening(EventID.CLEARING_SELECTED_BALL.ToString(), SetSelectedAnimation);
     }
 
     private void SetSelectedAnimation()

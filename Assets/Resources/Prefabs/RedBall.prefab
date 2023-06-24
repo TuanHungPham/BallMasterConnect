@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  ballType: 3
 --- !u!114 &2159017174900336769
 MonoBehaviour:
   m_ObjectHideFlags: 0
