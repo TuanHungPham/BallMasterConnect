@@ -1,17 +1,16 @@
 using UnityEngine;
 using TigerForge;
 using System.Collections.Generic;
-public class ConnectGameplayManager : MonoBehaviour
-{
-    private static ConnectGameplayManager instance;
-    public static ConnectGameplayManager Instance { get => instance; set => instance = value; }
 
+public class BallConnectSystem : MonoBehaviour
+{
     #region public
     public bool IsDragging { get => isDragging; set => isDragging = value; }
     public List<GameObject> SelectedBallList { get => selectedBallList; set => selectedBallList = value; }
     #endregion
 
     #region private
+    private const float MAX_DISTANCE_CAN_CONNECT = 2.2f;
     [SerializeField] private bool isDragging;
 
     [Space(20)]
@@ -27,13 +26,7 @@ public class ConnectGameplayManager : MonoBehaviour
 
     private void Awake()
     {
-        HandleInstance();
         LoadComponents();
-    }
-
-    private void HandleInstance()
-    {
-        instance = this;
     }
 
     private void Reset()
@@ -78,6 +71,7 @@ public class ConnectGameplayManager : MonoBehaviour
         Ball ballScript = firstBall.GetComponent<Ball>();
 
         currentSelectedBallType = ballScript.BallType;
+        currentSelectedBall = firstBall;
         ballScript.SelectBall();
 
         SelectedBallList.Add(firstBall);
@@ -90,11 +84,11 @@ public class ConnectGameplayManager : MonoBehaviour
         currentPointBall = (GameObject)EventManager.GetData(EventID.BALL_CONNECTING.ToString());
         Ball ballScript = currentPointBall.GetComponent<Ball>();
 
-        if (!CanConnect(ballScript) || currentPointBall == currentSelectedBall) return;
+        if (!IsSameBallType(ballScript) || !IsInDistance(ballScript) || currentPointBall == currentSelectedBall) return;
 
         if (currentPointBall == previousBall)
         {
-            ConnectBackThePreviousBall();
+            BackThePreviousBallConnection();
             return;
         }
 
@@ -113,7 +107,7 @@ public class ConnectGameplayManager : MonoBehaviour
         previousBall = selectedBallList[index - 1];
     }
 
-    private void ConnectBackThePreviousBall()
+    private void BackThePreviousBallConnection()
     {
         if (previousBall == firstBall)
         {
@@ -133,9 +127,18 @@ public class ConnectGameplayManager : MonoBehaviour
         previousBall = selectedBallList[index - 1];
     }
 
-    private bool CanConnect(Ball ballScript)
+    private bool IsSameBallType(Ball ballScript)
     {
         if (ballScript.BallType == currentSelectedBallType) return true;
+
+        return false;
+    }
+
+    private bool IsInDistance(Ball ballScript)
+    {
+        float distance = Vector2.Distance(currentPointBall.transform.position, currentSelectedBall.transform.position);
+
+        if (ballScript.BallType == currentSelectedBallType && distance <= MAX_DISTANCE_CAN_CONNECT) return true;
 
         return false;
     }

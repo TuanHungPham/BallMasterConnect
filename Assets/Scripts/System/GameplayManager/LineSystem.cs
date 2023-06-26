@@ -47,7 +47,7 @@ public class LineSystem : MonoBehaviour
     {
         linePointArray.Clear();
 
-        foreach (var ball in ConnectGameplayManager.Instance.SelectedBallList)
+        foreach (var ball in ConnectGameplayManager.Instance.BallConnectSystem.SelectedBallList)
         {
             if (linePointArray.Contains(ball.transform.position)) continue;
 

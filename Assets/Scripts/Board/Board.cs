@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,8 +13,7 @@ public class Board : MonoBehaviour
     [SerializeField] private float spacingX;
     [SerializeField] private float spacingY;
     [SerializeField] private GameObject ballHoder;
-    [SerializeField] private List<List<GameObject>> row = new List<List<GameObject>>();
-    [SerializeField] private List<GameObject> colum;
+    [SerializeField] private GameObject[,] mainBoardMatrix = new GameObject[ROW, COLUM];
     #endregion
 
     private void Awake()
@@ -39,36 +37,36 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        InitializeBoard();
+        InitializeNewBoard();
     }
 
-    private void GetBallHolder(Vector3 spawnPoint, int index)
+    private void InitializeNewBoard()
     {
-        for (int i = 0; i < COLUM; i++)
-        {
-            GameObject holder = Instantiate(ballHoder);
-            float postitionX = firstPos + i * spacingX;
-            spawnPoint.x = postitionX;
-            holder.transform.position = spawnPoint;
-
-            holder.transform.SetParent(transform);
-            holder.name = $"[{index},{i}]";
-            colum.Add(holder);
-        }
-    }
-
-    private void InitializeBoard()
-    {
-        Vector3 spawPoint = transform.position;
+        Vector3 spawnPoint = transform.position;
 
         for (int i = 0; i < ROW; i++)
         {
-            colum = new List<GameObject>();
+            for (int j = 0; j < COLUM; j++)
+            {
+                GameObject holder = Instantiate(ballHoder);
+                float postitionX = firstPos + j * spacingX;
+                spawnPoint.x = postitionX;
+                holder.transform.position = spawnPoint;
 
-            GetBallHolder(spawPoint, i);
-            row.Add(colum);
+                holder.transform.SetParent(transform);
+                holder.name = $"[{i},{j}]";
 
-            spawPoint.y -= spacingY;
+                mainBoardMatrix[i, j] = holder;
+            }
+
+            spawnPoint.y -= spacingY;
         }
+    }
+
+    private void SetMatrixPos(GameObject holder)
+    {
+        BallHolder ballHolder = holder.GetComponent<BallHolder>();
+        if (ballHolder == null) return;
+
     }
 }

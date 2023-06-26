@@ -609,6 +609,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 174838369}
+  - {fileID: 1783390873}
+  - {fileID: 1734514813}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -624,13 +626,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405ab215c59dbc6448b449adccd7aa48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDragging: 0
-  firstBall: {fileID: 0}
-  previousBall: {fileID: 0}
-  currentSelectedBall: {fileID: 0}
-  currentPointBall: {fileID: 0}
-  currentSelectedBallType: 0
-  selectedBallList: []
+  ballConnectSystem: {fileID: 1783390874}
+  ballExplosionSystem: {fileID: 0}
 --- !u!1 &1478662281
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,6 +777,102 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!1 &1734514812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1734514813}
+  - component: {fileID: 1734514814}
+  m_Layer: 0
+  m_Name: BallExplosionSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1734514813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734514812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1023202653}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734514814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734514812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35734d8e3a864984d9dc8f15a8084449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballCount: 0
+--- !u!1 &1783390872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783390873}
+  - component: {fileID: 1783390874}
+  m_Layer: 0
+  m_Name: BallConnectSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1783390873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783390872}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1023202653}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1783390874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783390872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd07483fe559f4744bdb8c3db74b8596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDragging: 0
+  firstBall: {fileID: 0}
+  previousBall: {fileID: 0}
+  currentSelectedBall: {fileID: 0}
+  currentPointBall: {fileID: 0}
+  currentSelectedBallType: 0
+  selectedBallList: []
 --- !u!1001 &1841773933
 PrefabInstance:
   m_ObjectHideFlags: 0
