@@ -1,16 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TigerForge;
+using DG.Tweening;
 
 public class BallHolder : MonoBehaviour
 {
     #region public
+    public MatrixPos matrixPos;
+    public GameObject CurrentBallHolding { get => currentBallHolding; set => currentBallHolding = value; }
+    public bool IsEmpty { get => isEmpty; set => isEmpty = value; }
     #endregion
 
     #region private
-    public MatrixPos matrixPos = new MatrixPos();
+    [SerializeField] private float refillHeight;
+    [SerializeField] private float ballDropTime;
     [SerializeField] private bool isEmpty;
 
     [Space(20)]
+    [SerializeField] private GameObject currentBallHolding;
     [SerializeField] private List<GameObject> ballList = new List<GameObject>();
     [SerializeField] private GameObject redBall;
     [SerializeField] private GameObject blueBall;
@@ -36,12 +43,20 @@ public class BallHolder : MonoBehaviour
         greenBall = Resources.Load<GameObject>("Prefabs/GreenBall");
         orangeBall = Resources.Load<GameObject>("Prefabs/OrangeBall");
 
-        isEmpty = true;
+        refillHeight = 10;
+        ballDropTime = 0.02f;
+        IsEmpty = true;
     }
 
     private void Start()
     {
-        HoldRandomBall();
+        ListenEvent();
+        CreateRandomBall(transform.position);
+    }
+
+    private void ListenEvent()
+    {
+        EventManager.StartListening(EventID.BALL_EXPLOSION.ToString(), CheckBallInHolder);
     }
 
     private void InitializeBallList()
@@ -52,20 +67,53 @@ public class BallHolder : MonoBehaviour
         ballList.Add(orangeBall);
     }
 
-    private void HoldRandomBall()
+    public void CreateRandomBall(Vector3 spawnPos, bool isRefill = false)
     {
         int index = Random.Range(0, ballList.Count);
 
         GameObject ball = Instantiate(ballList[index]);
-        ball.transform.position = transform.position;
+
+        if (isRefill)
+        {
+            ball.transform.position = new Vector3(spawnPos.x, spawnPos.y + refillHeight, spawnPos.z);
+            ball.transform.DOMoveY(spawnPos.y, ballDropTime);
+        }
+        else
+        {
+            ball.transform.position = spawnPos;
+        }
+
         ball.transform.SetParent(transform);
 
-        isEmpty = false;
+        CurrentBallHolding = ball;
+
+        IsEmpty = false;
+    }
+
+    private void CheckBallInHolder()
+    {
+        if (transform.childCount != 0)
+        {
+            IsEmpty = false;
+            Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is holding a Ball!");
+            return;
+        }
+
+        CurrentBallHolding = null;
+        IsEmpty = true;
+        Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is empty!");
     }
 }
 
 public struct MatrixPos
 {
-    public int x;
-    public int y;
+    public int row;
+    public int colum;
+
+    public void SetMatrixPos(int row, int colum)
+    {
+        this.row = row;
+        this.colum = colum;
+        Debug.Log($"Holder is setted as [{row},{colum}]");
+    }
 }

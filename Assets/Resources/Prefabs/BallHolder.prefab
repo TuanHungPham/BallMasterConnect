@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ce349e07c9e2c4489cabf3f1daa77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  refillHeight: 10
+  ballDropTime: 0.02
+  isEmpty: 0
+  currentBallHolding: {fileID: 0}
   ballList: []
   redBall: {fileID: 5499453748174922432, guid: faea4b4a274fd5e42a79722bc58bb68c, type: 3}
   blueBall: {fileID: 6514429310075180730, guid: e06bf45a57cbe4941a95078993568976, type: 3}

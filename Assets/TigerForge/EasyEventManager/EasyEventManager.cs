@@ -9,7 +9,8 @@ namespace TigerForge
     /// <summary>
     /// Events management system.
     /// </summary>
-    public class EventManager {
+    public class EventManager
+    {
 
         #region " VARIABLES "
 
@@ -133,6 +134,7 @@ namespace TigerForge
 
             if (eventDictionary.TryGetValue(eventName, out UnityEvent thisEvent))
             {
+                // Debug.Log($"{eventName} is emitting!");
                 thisEvent.Invoke();
             }
         }
@@ -797,7 +799,7 @@ namespace TigerForge
                     return false;
                 }
             }
-            
+
             /// <summary>
             /// Return true if there is no data.
             /// </summary>

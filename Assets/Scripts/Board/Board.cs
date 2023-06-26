@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Board : MonoBehaviour
 {
@@ -7,29 +8,32 @@ public class Board : MonoBehaviour
     #endregion
 
     #region private
-    private const int ROW = 6;
-    private const int COLUM = 6;
-    [SerializeField] private float firstPos;
-    [SerializeField] private float spacingX;
-    [SerializeField] private float spacingY;
-    [SerializeField] private GameObject ballHoder;
-    [SerializeField] private GameObject[,] mainBoardMatrix = new GameObject[ROW, COLUM];
+    protected const int ROW = 6;
+    protected const int COLUM = 6;
+    [SerializeField] protected float ballDropTime;
+    [SerializeField] protected float firstPos;
+    [SerializeField] protected float spacingX;
+    [SerializeField] protected float spacingY;
+    [SerializeField] protected GameObject ballHolderPrefab;
+    [SerializeField] protected GameObject[,] mainBoardMatrix = new GameObject[ROW, COLUM];
+    [SerializeField] protected List<BallHolder> ballHolderList = new List<BallHolder>();
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         LoadComponents();
     }
 
-    private void Reset()
+    protected virtual void Reset()
     {
         LoadComponents();
     }
 
-    private void LoadComponents()
+    protected virtual void LoadComponents()
     {
-        ballHoder = Resources.Load<GameObject>("Prefabs/BallHolder");
+        ballHolderPrefab = Resources.Load<GameObject>("Prefabs/BallHolder");
 
+        ballDropTime = 0.02f;
         firstPos = transform.position.x;
         spacingX = 1.5f;
         spacingY = 1.5f;
@@ -40,7 +44,12 @@ public class Board : MonoBehaviour
         InitializeNewBoard();
     }
 
-    private void InitializeNewBoard()
+    private void Update()
+    {
+        HandleShiftBoardDown();
+    }
+
+    protected virtual void InitializeNewBoard()
     {
         Vector3 spawnPoint = transform.position;
 
@@ -48,25 +57,64 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < COLUM; j++)
             {
-                GameObject holder = Instantiate(ballHoder);
+                GameObject holder = Instantiate(ballHolderPrefab);
                 float postitionX = firstPos + j * spacingX;
                 spawnPoint.x = postitionX;
                 holder.transform.position = spawnPoint;
-
                 holder.transform.SetParent(transform);
-                holder.name = $"[{i},{j}]";
 
                 mainBoardMatrix[i, j] = holder;
+                SetMatrixPos(holder, i, j);
             }
 
             spawnPoint.y -= spacingY;
         }
     }
 
-    private void SetMatrixPos(GameObject holder)
+    protected virtual void SetMatrixPos(GameObject holder, int row, int colum)
     {
         BallHolder ballHolder = holder.GetComponent<BallHolder>();
         if (ballHolder == null) return;
 
+        ballHolderList.Add(ballHolder);
+
+        ballHolder.matrixPos.SetMatrixPos(row, colum);
+        holder.name = $"[{ballHolder.matrixPos.row},{ballHolder.matrixPos.colum}]";
+    }
+
+    private void HandleShiftBoardDown()
+    {
+        foreach (var holder in ballHolderList)
+        {
+            if (!holder.IsEmpty) continue;
+
+            MatrixPos currentHolderMatrixPos = holder.matrixPos;
+            if (currentHolderMatrixPos.row == 0)
+            {
+                holder.CreateRandomBall(holder.transform.position, true);
+                continue;
+            }
+
+            int aboveRow = currentHolderMatrixPos.row - 1;
+
+            GameObject aboveHolder = mainBoardMatrix[aboveRow, currentHolderMatrixPos.colum];
+            BallHolder aboveBallHolder = aboveHolder.GetComponent<BallHolder>();
+
+            if (aboveBallHolder.IsEmpty) continue;
+
+            ShiftBallInCurrentBoard(holder, aboveBallHolder);
+        }
+    }
+
+    protected virtual void ShiftBallInCurrentBoard(BallHolder currentHolder, BallHolder aboveBallHolder)
+    {
+        currentHolder.CurrentBallHolding = aboveBallHolder.CurrentBallHolding;
+        currentHolder.IsEmpty = false;
+
+        aboveBallHolder.CurrentBallHolding.transform.SetParent(currentHolder.transform);
+        currentHolder.CurrentBallHolding.transform.DOMoveY(currentHolder.transform.position.y, ballDropTime);
+
+        aboveBallHolder.CurrentBallHolding = null;
+        aboveBallHolder.IsEmpty = true;
     }
 }

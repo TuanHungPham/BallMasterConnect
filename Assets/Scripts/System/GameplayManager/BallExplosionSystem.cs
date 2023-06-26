@@ -1,6 +1,5 @@
 using UnityEngine;
 using TigerForge;
-using System;
 
 public class BallExplosionSystem : MonoBehaviour
 {
@@ -52,6 +51,13 @@ public class BallExplosionSystem : MonoBehaviour
             Destroy(ball);
         }
         Debug.Log("All Ball are exploded!");
+
+        Invoke(nameof(EmitExplodeEvent), 1);
+    }
+
+    private void EmitExplodeEvent()
+    {
+        EventManager.EmitEvent(EventID.BALL_EXPLOSION.ToString());
     }
 
     private bool CanExplode()
