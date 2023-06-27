@@ -10,7 +10,7 @@ public class BallConnectSystem : MonoBehaviour
     #endregion
 
     #region private
-    private const float MAX_DISTANCE_CAN_CONNECT = 2.2f;
+    private const float MAX_DISTANCE_CAN_CONNECT = 2.3f;
     [SerializeField] private bool isDragging;
 
     [Space(20)]

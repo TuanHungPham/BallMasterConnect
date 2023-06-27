@@ -8,6 +8,7 @@ public class BallExplosionSystem : MonoBehaviour
 
     #region private
     private const int MINIMUM_BALL_CAN_BE_EXPLODED = 3;
+    private const float EXPLOSION_DELAY = 0.1f;
     [SerializeField] private int ballCount;
     #endregion
 
@@ -52,7 +53,7 @@ public class BallExplosionSystem : MonoBehaviour
         }
         Debug.Log("All Ball are exploded!");
 
-        Invoke(nameof(EmitExplodeEvent), 1);
+        Invoke(nameof(EmitExplodeEvent), EXPLOSION_DELAY);
     }
 
     private void EmitExplodeEvent()

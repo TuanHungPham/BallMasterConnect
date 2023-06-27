@@ -35,8 +35,8 @@ public class Board : MonoBehaviour
 
         ballDropTime = 0.02f;
         firstPos = transform.position.x;
-        spacingX = 1.5f;
-        spacingY = 1.5f;
+        spacingX = 1.6f;
+        spacingY = 1.6f;
     }
 
     private void Start()

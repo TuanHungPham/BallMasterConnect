@@ -23,6 +23,7 @@ public class BallHolder : MonoBehaviour
     [SerializeField] private GameObject blueBall;
     [SerializeField] private GameObject greenBall;
     [SerializeField] private GameObject orangeBall;
+    [SerializeField] private GameObject purpleBall;
     #endregion
 
     private void Awake()
@@ -42,6 +43,7 @@ public class BallHolder : MonoBehaviour
         blueBall = Resources.Load<GameObject>("Prefabs/BlueBall");
         greenBall = Resources.Load<GameObject>("Prefabs/GreenBall");
         orangeBall = Resources.Load<GameObject>("Prefabs/OrangeBall");
+        purpleBall = Resources.Load<GameObject>("Prefabs/PurpleBall");
 
         refillHeight = 10;
         ballDropTime = 0.02f;
@@ -65,6 +67,7 @@ public class BallHolder : MonoBehaviour
         ballList.Add(blueBall);
         ballList.Add(greenBall);
         ballList.Add(orangeBall);
+        ballList.Add(purpleBall);
     }
 
     public void CreateRandomBall(Vector3 spawnPos, bool isRefill = false)
