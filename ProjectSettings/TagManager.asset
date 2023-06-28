@@ -44,3 +44,6 @@ TagManager:
   - name: MainLayer
     uniqueID: 1577239659
     locked: 0
+  - name: BoostLayer
+    uniqueID: 3489421629
+    locked: 0

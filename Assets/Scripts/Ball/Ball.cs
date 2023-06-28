@@ -49,7 +49,7 @@ public class Ball : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!ConnectGameplayManager.Instance.BallConnectSystem.IsDragging) return;
+        if (!ConnectGameplayManager.Instance.GetBallConnectSystem().IsDragging) return;
 
         EventManager.SetData(EventID.BALL_CONNECTING.ToString(), this.gameObject);
         EventManager.EmitEvent(EventID.BALL_CONNECTING.ToString());

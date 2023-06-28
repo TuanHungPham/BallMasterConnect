@@ -7,7 +7,6 @@ public class BallHolder : MonoBehaviour
 {
     #region public
     public MatrixPos matrixPos;
-    public GameObject CurrentBallHolding { get => currentBallHolding; set => currentBallHolding = value; }
     public bool IsEmpty { get => isEmpty; set => isEmpty = value; }
     #endregion
 
@@ -88,7 +87,7 @@ public class BallHolder : MonoBehaviour
 
         ball.transform.SetParent(transform);
 
-        CurrentBallHolding = ball;
+        currentBallHolding = ball;
 
         IsEmpty = false;
     }
@@ -98,13 +97,23 @@ public class BallHolder : MonoBehaviour
         if (transform.childCount != 0)
         {
             IsEmpty = false;
-            Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is holding a Ball!");
+            // Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is holding a Ball!");
             return;
         }
 
-        CurrentBallHolding = null;
+        currentBallHolding = null;
         IsEmpty = true;
-        Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is empty!");
+        // Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is empty!");
+    }
+
+    public GameObject GetCurrentBallHolding()
+    {
+        return currentBallHolding;
+    }
+
+    public void SetCurrentBallHolding(GameObject obj)
+    {
+        currentBallHolding = obj;
     }
 }
 
@@ -117,6 +126,6 @@ public struct MatrixPos
     {
         this.row = row;
         this.colum = colum;
-        Debug.Log($"Holder is setted as [{row},{colum}]");
+        // Debug.Log($"Holder is setted as [{row},{colum}]");
     }
 }

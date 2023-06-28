@@ -6,7 +6,6 @@ public class BallConnectSystem : MonoBehaviour
 {
     #region public
     public bool IsDragging { get => isDragging; set => isDragging = value; }
-    public List<GameObject> SelectedBallList { get => selectedBallList; set => selectedBallList = value; }
     #endregion
 
     #region private
@@ -19,7 +18,7 @@ public class BallConnectSystem : MonoBehaviour
     [SerializeField] private GameObject currentSelectedBall;
     [SerializeField] private GameObject currentPointBall;
     [SerializeField] private BallType currentSelectedBallType;
-
+    [SerializeField] private GameObject lastSelectedBall;
     [Space(20)]
     [SerializeField] private List<GameObject> selectedBallList = new List<GameObject>();
     #endregion
@@ -54,12 +53,10 @@ public class BallConnectSystem : MonoBehaviour
     private void ClearAllSelectedBall()
     {
         isDragging = false;
-        SelectedBallList.Clear();
+        selectedBallList.Clear();
 
         firstBall = null;
-        currentSelectedBall = null;
         previousBall = null;
-        currentPointBall = null;
 
         EventManager.EmitEvent(EventID.CLEARING_SELECTED_BALL.ToString());
     }
@@ -74,7 +71,7 @@ public class BallConnectSystem : MonoBehaviour
         currentSelectedBall = firstBall;
         ballScript.SelectBall();
 
-        SelectedBallList.Add(firstBall);
+        selectedBallList.Add(firstBall);
 
         isDragging = true;
     }
@@ -95,11 +92,13 @@ public class BallConnectSystem : MonoBehaviour
         if (selectedBallList.Contains(currentPointBall)) return;
 
         ConnectTheCurrentBall(ballScript);
+
+        lastSelectedBall = currentSelectedBall;
     }
 
     private void ConnectTheCurrentBall(Ball ballScript)
     {
-        SelectedBallList.Add(currentPointBall);
+        selectedBallList.Add(currentPointBall);
         ballScript.SelectBall();
 
         currentSelectedBall = currentPointBall;
@@ -141,5 +140,15 @@ public class BallConnectSystem : MonoBehaviour
         if (ballScript.BallType == currentSelectedBallType && distance <= MAX_DISTANCE_CAN_CONNECT) return true;
 
         return false;
+    }
+
+    public List<GameObject> GetSelectedBallList()
+    {
+        return selectedBallList;
+    }
+
+    public GameObject GetLastSelectedBall()
+    {
+        return lastSelectedBall;
     }
 }

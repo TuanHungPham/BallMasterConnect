@@ -46,10 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refillHeight: 10
   ballDropTime: 0.02
-  isEmpty: 0
+  isEmpty: 1
   currentBallHolding: {fileID: 0}
   ballList: []
   redBall: {fileID: 5499453748174922432, guid: faea4b4a274fd5e42a79722bc58bb68c, type: 3}
   blueBall: {fileID: 6514429310075180730, guid: e06bf45a57cbe4941a95078993568976, type: 3}
   greenBall: {fileID: 2747458393794426055, guid: ae861771092233b4f9d873050bd9cfd9, type: 3}
   orangeBall: {fileID: 8514366421543511654, guid: fd2e88c60f1baf34892fd010c3b649f4, type: 3}
+  purpleBall: {fileID: 3831412207913880079, guid: 064e87b96d6613647bdf25075d7217f8, type: 3}

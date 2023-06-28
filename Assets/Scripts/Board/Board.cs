@@ -8,28 +8,28 @@ public class Board : MonoBehaviour
     #endregion
 
     #region private
-    protected const int ROW = 6;
-    protected const int COLUM = 6;
-    [SerializeField] protected float ballDropTime;
-    [SerializeField] protected float firstPos;
-    [SerializeField] protected float spacingX;
-    [SerializeField] protected float spacingY;
-    [SerializeField] protected GameObject ballHolderPrefab;
-    [SerializeField] protected GameObject[,] mainBoardMatrix = new GameObject[ROW, COLUM];
-    [SerializeField] protected List<BallHolder> ballHolderList = new List<BallHolder>();
+    private const int ROW = 6;
+    private const int COLUM = 6;
+    [SerializeField] private float ballDropTime;
+    [SerializeField] private float firstPos;
+    [SerializeField] private float spacingX;
+    [SerializeField] private float spacingY;
+    [SerializeField] private GameObject ballHolderPrefab;
+    [SerializeField] private GameObject[,] mainBoardMatrix = new GameObject[ROW, COLUM];
+    [SerializeField] private List<BallHolder> ballHolderList = new List<BallHolder>();
     #endregion
 
-    protected virtual void Awake()
+    private void Awake()
     {
         LoadComponents();
     }
 
-    protected virtual void Reset()
+    private void Reset()
     {
         LoadComponents();
     }
 
-    protected virtual void LoadComponents()
+    private void LoadComponents()
     {
         ballHolderPrefab = Resources.Load<GameObject>("Prefabs/BallHolder");
 
@@ -49,7 +49,7 @@ public class Board : MonoBehaviour
         HandleShiftBoardDown();
     }
 
-    protected virtual void InitializeNewBoard()
+    private void InitializeNewBoard()
     {
         Vector3 spawnPoint = transform.position;
 
@@ -71,7 +71,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    protected virtual void SetMatrixPos(GameObject holder, int row, int colum)
+    private void SetMatrixPos(GameObject holder, int row, int colum)
     {
         BallHolder ballHolder = holder.GetComponent<BallHolder>();
         if (ballHolder == null) return;
@@ -106,15 +106,20 @@ public class Board : MonoBehaviour
         }
     }
 
-    protected virtual void ShiftBallInCurrentBoard(BallHolder currentHolder, BallHolder aboveBallHolder)
+    private void ShiftBallInCurrentBoard(BallHolder currentHolder, BallHolder aboveBallHolder)
     {
-        currentHolder.CurrentBallHolding = aboveBallHolder.CurrentBallHolding;
+        currentHolder.SetCurrentBallHolding(aboveBallHolder.GetCurrentBallHolding());
         currentHolder.IsEmpty = false;
 
-        aboveBallHolder.CurrentBallHolding.transform.SetParent(currentHolder.transform);
-        currentHolder.CurrentBallHolding.transform.DOMoveY(currentHolder.transform.position.y, ballDropTime);
+        aboveBallHolder.GetCurrentBallHolding().transform.SetParent(currentHolder.transform);
+        currentHolder.GetCurrentBallHolding().transform.DOMoveY(currentHolder.transform.position.y, ballDropTime);
 
-        aboveBallHolder.CurrentBallHolding = null;
+        aboveBallHolder.SetCurrentBallHolding(null);
         aboveBallHolder.IsEmpty = true;
+    }
+
+    public GameObject[,] GetMatrixBoard()
+    {
+        return mainBoardMatrix;
     }
 }
