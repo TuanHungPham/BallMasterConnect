@@ -59,7 +59,7 @@ public class BallExplosionSystem : MonoBehaviour
     public void ExplodeAllBallInRow(int row)
     {
         GameObject[,] board = BoardManager.Instance.GetBoardInstance().GetMatrixBoard();
-        GameObject ball = new GameObject();
+        GameObject ball = null;
 
         for (int i = 0; i < board.GetLength(1); i++)
         {
@@ -75,7 +75,7 @@ public class BallExplosionSystem : MonoBehaviour
     public void ExplodeAllBallInColum(int colum)
     {
         GameObject[,] board = BoardManager.Instance.GetBoardInstance().GetMatrixBoard();
-        GameObject ball = new GameObject();
+        GameObject ball = null;
 
         for (int i = 0; i < board.GetLength(0); i++)
         {

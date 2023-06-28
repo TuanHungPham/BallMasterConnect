@@ -1,6 +1,5 @@
 using UnityEngine;
-using TigerForge;
-using System.Collections.Generic;
+
 public class ConnectGameplayManager : MonoBehaviour
 {
     private static ConnectGameplayManager instance;
