@@ -1,6 +1,5 @@
 using UnityEngine;
 using TigerForge;
-using System.Collections.Generic;
 
 public class BonusSystem : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class BonusSystem : MonoBehaviour
     #endregion
 
     #region private
+    private const float ROCKET_BOOST_FUNCTION_DELAY = 0.5f;
     [SerializeField] private int numberOfExplodedBall;
     [SerializeField] private int starBonus;
     [SerializeField] private int minimumForStarBonus;
@@ -15,6 +15,7 @@ public class BonusSystem : MonoBehaviour
 
     [Space(20)]
     [SerializeField] private GameObject rocketBoostPrefab;
+    [SerializeField] private Transform itemPool;
     #endregion
 
     private void Awake()
@@ -30,6 +31,7 @@ public class BonusSystem : MonoBehaviour
     private void LoadComponents()
     {
         rocketBoostPrefab = Resources.Load<GameObject>("Prefabs/RocketBoost");
+        itemPool = GameObject.Find("ItemPool").transform;
     }
 
     private void Start()
@@ -52,6 +54,7 @@ public class BonusSystem : MonoBehaviour
     private void GetNumberOfExplodedBall()
     {
         numberOfExplodedBall = ConnectGameplayManager.Instance.GetBallExplosionSystem().BallCount;
+        Debug.Log("Number of Exploded Ball: " + numberOfExplodedBall);
     }
 
     private void GetStarBonus()
@@ -69,18 +72,28 @@ public class BonusSystem : MonoBehaviour
 
         CreateRocketBoost();
         Debug.Log("Rocket incoming...");
+
+        numberOfExplodedBall = 0;
     }
 
     private void CreateRocketBoost()
     {
-        GameObject lastSelectedBall = ConnectGameplayManager.Instance.GetBallConnectSystem().GetLastSelectedBall();
+        Vector3 lastSelectedBallPosition = ConnectGameplayManager.Instance.GetBallConnectSystem().GetLastSelectedBallPos();
 
         GameObject rocketBoost = Instantiate(rocketBoostPrefab);
-        rocketBoost.transform.position = lastSelectedBall.transform.position;
+        rocketBoost.transform.position = lastSelectedBallPosition;
+        rocketBoost.transform.SetParent(itemPool, true);
+
+        Invoke(nameof(RocketBoostFunction), ROCKET_BOOST_FUNCTION_DELAY);
     }
 
-    private void RocketBoostFunction(int row = -1, int colum = -1)
+    private void RocketBoostFunction()
     {
-        ConnectGameplayManager.Instance.GetBallExplosionSystem().ExplodeAllInRowOrColum(row, colum);
+        MatrixPos matrixPos = ConnectGameplayManager.Instance.GetBallConnectSystem().GetLastSelectedBallMatrixPos();
+        // Debug.Log("Row: " + matrixPos.row);
+        // Debug.Log("Colum: " + matrixPos.colum);
+
+        ConnectGameplayManager.Instance.GetBallExplosionSystem().ExplodeAllBallInRow(matrixPos.row);
+        ConnectGameplayManager.Instance.GetBallExplosionSystem().ExplodeAllBallInColum(matrixPos.colum);
     }
 }

@@ -10,6 +10,7 @@ public class BallConnectSystem : MonoBehaviour
 
     #region private
     private const float MAX_DISTANCE_CAN_CONNECT = 2.3f;
+    private Vector3 lastSelectedBallPos;
     [SerializeField] private bool isDragging;
 
     [Space(20)]
@@ -17,8 +18,10 @@ public class BallConnectSystem : MonoBehaviour
     [SerializeField] private GameObject previousBall;
     [SerializeField] private GameObject currentSelectedBall;
     [SerializeField] private GameObject currentPointBall;
-    [SerializeField] private BallType currentSelectedBallType;
     [SerializeField] private GameObject lastSelectedBall;
+    [SerializeField] private BallType currentSelectedBallType;
+    private MatrixPos lastSelectedBallMatrixPos;
+
     [Space(20)]
     [SerializeField] private List<GameObject> selectedBallList = new List<GameObject>();
     #endregion
@@ -81,7 +84,7 @@ public class BallConnectSystem : MonoBehaviour
         currentPointBall = (GameObject)EventManager.GetData(EventID.BALL_CONNECTING.ToString());
         Ball ballScript = currentPointBall.GetComponent<Ball>();
 
-        if (!IsSameBallType(ballScript) || !IsInDistance(ballScript) || currentPointBall == currentSelectedBall) return;
+        if (!IsSameBallType(ballScript) || !IsInDistance() || currentPointBall == currentSelectedBall) return;
 
         if (currentPointBall == previousBall)
         {
@@ -94,6 +97,20 @@ public class BallConnectSystem : MonoBehaviour
         ConnectTheCurrentBall(ballScript);
 
         lastSelectedBall = currentSelectedBall;
+
+        SetLastSelectedBallPos();
+        SetLastSelectedBallMatrixPos();
+    }
+
+    private void SetLastSelectedBallPos()
+    {
+        lastSelectedBallPos = lastSelectedBall.transform.position;
+    }
+
+    private void SetLastSelectedBallMatrixPos()
+    {
+        Ball ball = lastSelectedBall.GetComponent<Ball>();
+        lastSelectedBallMatrixPos = ball.GetBallMatrixPosition();
     }
 
     private void ConnectTheCurrentBall(Ball ballScript)
@@ -133,11 +150,11 @@ public class BallConnectSystem : MonoBehaviour
         return false;
     }
 
-    private bool IsInDistance(Ball ballScript)
+    private bool IsInDistance()
     {
         float distance = Vector2.Distance(currentPointBall.transform.position, currentSelectedBall.transform.position);
 
-        if (ballScript.BallType == currentSelectedBallType && distance <= MAX_DISTANCE_CAN_CONNECT) return true;
+        if (distance <= MAX_DISTANCE_CAN_CONNECT) return true;
 
         return false;
     }
@@ -147,8 +164,13 @@ public class BallConnectSystem : MonoBehaviour
         return selectedBallList;
     }
 
-    public GameObject GetLastSelectedBall()
+    public Vector3 GetLastSelectedBallPos()
     {
-        return lastSelectedBall;
+        return lastSelectedBallPos;
+    }
+
+    public MatrixPos GetLastSelectedBallMatrixPos()
+    {
+        return lastSelectedBallMatrixPos;
     }
 }

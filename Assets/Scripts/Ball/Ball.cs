@@ -12,16 +12,36 @@ public class Ball : MonoBehaviour
     #region private
     [SerializeField] private bool isSelected;
     [SerializeField] private BallType ballType;
+    [SerializeField] private BallHolder currentBallHolder;
+    private MatrixPos matrixPos;
     #endregion
 
     private void Start()
     {
         ListenEvent();
+        SetBallHolderComponent();
     }
 
     private void ListenEvent()
     {
         EventManager.StartListening(EventID.CLEARING_SELECTED_BALL.ToString(), DeselectBall);
+        EventManager.StartListening(EventID.BOARD_SHIFTING_DOWN.ToString(), SetBallHolderComponent);
+    }
+
+    private void SetBallHolderComponent()
+    {
+        currentBallHolder = transform.parent.GetComponent<BallHolder>();
+        SetBallMatrixPosition();
+    }
+
+    private void SetBallMatrixPosition()
+    {
+        matrixPos.SetMatrixPos(currentBallHolder.matrixPos.row, currentBallHolder.matrixPos.colum);
+    }
+
+    public MatrixPos GetBallMatrixPosition()
+    {
+        return matrixPos;
     }
 
     public void SelectBall()

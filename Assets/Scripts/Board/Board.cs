@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TigerForge;
 
 public class Board : MonoBehaviour
 {
@@ -116,6 +117,13 @@ public class Board : MonoBehaviour
 
         aboveBallHolder.SetCurrentBallHolding(null);
         aboveBallHolder.IsEmpty = true;
+
+        EmitShiftBoardDownEvent();
+    }
+
+    private void EmitShiftBoardDownEvent()
+    {
+        EventManager.EmitEvent(EventID.BOARD_SHIFTING_DOWN.ToString());
     }
 
     public GameObject[,] GetMatrixBoard()

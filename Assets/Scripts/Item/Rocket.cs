@@ -6,8 +6,8 @@ public class Rocket : MonoBehaviour
     #endregion
 
     #region private
-    private const float DELAY_FLY = 0.5f;
-    private const float SELF_DESTRUCT_TIME = 2f;
+    private const float DELAY_FLY = 0.2f;
+    private const float SELF_DESTRUCT_TIME = 1f;
     [SerializeField] private float flySpeed;
 
     [Space(20)]

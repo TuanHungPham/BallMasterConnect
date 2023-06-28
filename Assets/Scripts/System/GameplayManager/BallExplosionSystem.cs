@@ -40,7 +40,7 @@ public class BallExplosionSystem : MonoBehaviour
 
     private void CheckBallExplosion()
     {
-        BallCount = ConnectGameplayManager.Instance.GetBallConnectSystem().GetSelectedBallList().Count;
+        ballCount = ConnectGameplayManager.Instance.GetBallConnectSystem().GetSelectedBallList().Count;
         if (!CanExplode()) return;
 
         ExplodeAllConnectedBall();
@@ -56,32 +56,34 @@ public class BallExplosionSystem : MonoBehaviour
         Invoke(nameof(EmitExplodeEvent), explosionDelay);
     }
 
-    public void ExplodeAllInRowOrColum(int row = -1, int colum = -1)
+    public void ExplodeAllBallInRow(int row)
     {
         GameObject[,] board = BoardManager.Instance.GetBoardInstance().GetMatrixBoard();
+        GameObject ball = new GameObject();
 
-        int dimension = 0;
-        if (colum == -1 && row != -1)
+        for (int i = 0; i < board.GetLength(1); i++)
         {
-            dimension = 1;
-        }
-        else if (row == -1 && colum != -1)
-        {
-            dimension = 0;
-        }
-        else return;
+            if (board[row, i].transform.childCount == 0) continue;
 
-        for (int i = 0; i < board.GetLength(dimension); i++)
-        {
-            if (dimension == 0)
-            {
-                Destroy(board[i, colum]);
-                continue;
-            }
-            Destroy(board[row, i]);
+            ball = board[row, i].transform.GetChild(0).gameObject;
+            Destroy(ball);
         }
 
-        Debug.Log($"Exploded all ball!");
+        Invoke(nameof(EmitExplodeEvent), explosionDelay);
+    }
+
+    public void ExplodeAllBallInColum(int colum)
+    {
+        GameObject[,] board = BoardManager.Instance.GetBoardInstance().GetMatrixBoard();
+        GameObject ball = new GameObject();
+
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            if (board[i, colum].transform.childCount == 0) continue;
+
+            ball = board[i, colum].transform.GetChild(0).gameObject;
+            Destroy(ball);
+        }
 
         Invoke(nameof(EmitExplodeEvent), explosionDelay);
     }
@@ -89,11 +91,12 @@ public class BallExplosionSystem : MonoBehaviour
     private void EmitExplodeEvent()
     {
         EventManager.EmitEvent(EventID.BALL_EXPLOSION.ToString());
+        ballCount = 0;
     }
 
     private bool CanExplode()
     {
-        if (BallCount < MINIMUM_BALL_CAN_BE_EXPLODED) return false;
+        if (ballCount < MINIMUM_BALL_CAN_BE_EXPLODED) return false;
 
         return true;
     }

@@ -928,7 +928,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358453080}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed49ebdfa9ad39f42aa70e59fa2a3c97, type: 3}
   m_Name: 
@@ -938,6 +938,7 @@ MonoBehaviour:
   minimumForStarBonus: 5
   minimumForRocket: 5
   rocketBoostPrefab: {fileID: 7323979268997865582, guid: ecec500eb3ba57245ab709916b3e1063, type: 3}
+  itemPool: {fileID: 236557419}
 --- !u!1 &369237160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,7 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47aa851205676764b925dac39a0e4c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
+  board: {fileID: 1478662284}
 --- !u!114 &645502779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2105,7 +2106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballConnectSystem: {fileID: 1783390874}
   ballExplosionSystem: {fileID: 1734514814}
-  bonusSystem: {fileID: 0}
+  bonusSystem: {fileID: 358453082}
 --- !u!1 &1039987692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,7 +3230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35734d8e3a864984d9dc8f15a8084449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionDelay: 0.1
+  explosionDelay: 0.25
   ballCount: 0
 --- !u!1 &1753957600
 GameObject:
@@ -3574,8 +3575,8 @@ MonoBehaviour:
   previousBall: {fileID: 0}
   currentSelectedBall: {fileID: 0}
   currentPointBall: {fileID: 0}
-  currentSelectedBallType: 0
   lastSelectedBall: {fileID: 0}
+  currentSelectedBallType: 0
   selectedBallList: []
 --- !u!1 &1874923421
 GameObject:
