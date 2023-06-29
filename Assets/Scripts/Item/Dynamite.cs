@@ -8,16 +8,15 @@ public class Dynamite : MonoBehaviour
 
     #region private
     [SerializeField] private float moveTime;
+    private MatrixPos targetPos;
     #endregion
 
     private void Start()
     {
-        MoveToTargetPoint();
     }
 
     private void Update()
     {
-
     }
 
     private void MoveToTargetPoint()
@@ -25,6 +24,5 @@ public class Dynamite : MonoBehaviour
         Vector3 targetPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPoint.z = 0;
         transform.DOMove(targetPoint, moveTime);
-
     }
 }

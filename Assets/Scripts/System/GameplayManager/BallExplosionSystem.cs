@@ -88,6 +88,25 @@ public class BallExplosionSystem : MonoBehaviour
         Invoke(nameof(EmitExplodeEvent), explosionDelay);
     }
 
+    public void ExplodeAroundPosition(int row, int colum)
+    {
+        GameObject[,] board = BoardManager.Instance.GetBoardInstance().GetMatrixBoard();
+        GameObject ball = null;
+
+        for (int i = row - 1; i <= row + 1; i++)
+        {
+            for (int j = colum - 1; j <= colum + 1; j++)
+            {
+                if (board[i, j].transform.childCount == 0) return;
+
+                ball = ball = board[i, j].transform.GetChild(0).gameObject;
+                Destroy(ball);
+            }
+        }
+
+        Invoke(nameof(EmitExplodeEvent), explosionDelay);
+    }
+
     private void EmitExplodeEvent()
     {
         EventManager.EmitEvent(EventID.BALL_EXPLOSION.ToString());
