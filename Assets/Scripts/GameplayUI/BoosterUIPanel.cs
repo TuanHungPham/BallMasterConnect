@@ -61,14 +61,19 @@ public class BoosterUIPanel : MonoBehaviour
 
         DeselectAllBooster();
 
-        if (booster.IsEmpty()) return;
+        if (booster.IsEmpty())
+        {
+            EventManager.EmitEvent(EventID.BOOSTER_DESELECTING.ToString());
+            return;
+        }
 
         booster.Select();
 
         BoosterID selectedBoosterID = booster.GetButtonBoosterID();
+
         Debug.Log(selectedBoosterID);
 
-        EventManager.SetData(EventID.BOOSTER_SELECTING.ToString(), selectedBoosterID);
+        EventManager.SetData(EventID.BOOSTER_SELECTING.ToString(), booster.GetButtonBoosterID());
         EventManager.EmitEvent(EventID.BOOSTER_SELECTING.ToString());
     }
 
@@ -87,6 +92,7 @@ public class BoosterUIPanel : MonoBehaviour
 
         foreach (var booster in inventoryData)
         {
+            if (booster.GetBoosterData() == null) continue;
             SetUIButtonData(booster);
         }
     }

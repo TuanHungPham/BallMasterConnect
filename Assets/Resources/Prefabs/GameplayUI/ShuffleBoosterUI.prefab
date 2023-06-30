@@ -420,6 +420,7 @@ MonoBehaviour:
   isSelected: 0
   isEmpty: 0
   boosterID: 3
+  boosterType: 2
   animator: {fileID: 1716784100}
   boosterQuantity: {fileID: 0}
   adsLogo: {fileID: 7452647527272386151}

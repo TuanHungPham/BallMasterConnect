@@ -35,4 +35,28 @@ public class BoosterInventory : MonoBehaviour
         EventManager.SetData(EventID.BOOSTER_INVENTORY_CHANGE.ToString(), boosterInventoryList);
         EventManager.EmitEvent(EventID.BOOSTER_INVENTORY_CHANGE.ToString());
     }
+
+    public void AddBoosterToInventory(Booster booster, int quantity)
+    {
+        if (boosterInventoryList.Contains(booster))
+        {
+            booster.AddMoreBooster(quantity);
+            return;
+        }
+
+        booster.AddMoreBooster(quantity);
+        boosterInventoryList.Add(booster);
+    }
+
+    public Booster GetBoosterInInventory(BoosterID boosterID)
+    {
+        foreach (Booster booster in boosterInventoryList)
+        {
+            if (booster.GetBoosterData().BoosterID != boosterID) continue;
+
+            return booster;
+        }
+
+        return null;
+    }
 }

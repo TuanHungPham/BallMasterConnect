@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boosterName: RocketBooster
   boosterID: 1
+  boosterType: 1
+  boosterPrefab: {fileID: 7323979268997865582, guid: ecec500eb3ba57245ab709916b3e1063, type: 3}

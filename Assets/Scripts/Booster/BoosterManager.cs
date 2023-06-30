@@ -9,6 +9,7 @@ public class BoosterManager : MonoBehaviour
     #endregion
 
     #region private
+    [SerializeField] private BoosterSelectingHandler boosterSelectingHandler;
     [SerializeField] private BoosterUsingHandler boosterUsingHandler;
     [SerializeField] private BoosterInventory boosterInventory;
     #endregion
@@ -32,16 +33,23 @@ public class BoosterManager : MonoBehaviour
     private void LoadComponents()
     {
         boosterInventory = GetComponentInChildren<BoosterInventory>();
+        boosterSelectingHandler = GetComponentInChildren<BoosterSelectingHandler>();
         boosterUsingHandler = GetComponentInChildren<BoosterUsingHandler>();
     }
 
-    public BoosterInventory GetItemInventorySystem()
+    public BoosterInventory GetBoosterInventorySystem()
     {
         return boosterInventory;
     }
 
-    public BoosterUsingHandler GetItemUsingHandler()
+    public BoosterSelectingHandler GetBoosterSelectingHandler()
+    {
+        return boosterSelectingHandler;
+    }
+
+    public BoosterUsingHandler GetBoosterUsingHandler()
     {
         return boosterUsingHandler;
     }
+
 }

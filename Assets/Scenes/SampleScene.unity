@@ -1640,6 +1640,51 @@ RectTransform:
   m_AnchoredPosition: {x: 89.82999, y: -277.25}
   m_SizeDelta: {x: 132.73999, y: 118.43005}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &778735553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778735554}
+  - component: {fileID: 778735555}
+  m_Layer: 0
+  m_Name: BoosterUsingHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &778735554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778735553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1332710482}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &778735555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778735553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe2aacefe5701c44a494c1b95a7935b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointToUseBooster: {fileID: 0}
 --- !u!1 &1023202652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +2014,7 @@ Transform:
   m_Children:
   - {fileID: 1723114025}
   - {fileID: 1746072191}
+  - {fileID: 778735554}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1984,7 +2030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da69da2e509f63340869b31617d4b9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boosterUsingHandler: {fileID: 1746072192}
+  boosterSelectingHandler: {fileID: 1746072192}
+  boosterUsingHandler: {fileID: 778735555}
   boosterInventory: {fileID: 1723114026}
 --- !u!1 &1478662281
 GameObject:
@@ -2341,8 +2388,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boosterInventoryList:
-  - {fileID: 1533798849849076827, guid: 68d3ea9518ef19f4996dab6c4af752f3, type: 3}
-  - {fileID: 4882830931284009741, guid: ecec500eb3ba57245ab709916b3e1063, type: 3}
+  - boosterData: {fileID: 11400000, guid: 6a8ed8ac9b1c0db4190082416cb4ba60, type: 2}
+    boosterQuantity: 1
+  - boosterData: {fileID: 11400000, guid: f7ae95160e0815d4cbd9b9cf92f29b5c, type: 2}
+    boosterQuantity: 1
+  - boosterData: {fileID: 11400000, guid: 549b0d35322ac314bb034ee78ace2900, type: 2}
+    boosterQuantity: 1
 --- !u!1 &1734514812
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,7 +2451,7 @@ GameObject:
   - component: {fileID: 1746072191}
   - component: {fileID: 1746072192}
   m_Layer: 0
-  m_Name: BoosterUsingHandler
+  m_Name: BoosterSelectingHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2433,8 +2484,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b24887a11bd1b46b4f6ee48d5eaeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSelectedItemID: 0
-  pointToUseItem: {fileID: 0}
+  currentSelectedBooster:
+    boosterData: {fileID: 0}
+    boosterQuantity: 0
+  currentSelectedBoosterID: 0
   isUsingItem: 0
 --- !u!1 &1753957600
 GameObject:

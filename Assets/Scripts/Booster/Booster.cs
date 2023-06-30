@@ -1,6 +1,8 @@
 using UnityEngine;
+using System;
 
-public class Booster : MonoBehaviour
+[Serializable]
+public class Booster
 {
     #region public
     #endregion
@@ -9,21 +11,6 @@ public class Booster : MonoBehaviour
     [SerializeField] private BoosterData boosterData;
     [SerializeField] private int boosterQuantity;
     #endregion
-
-    private void Awake()
-    {
-        LoadComponents();
-    }
-
-    private void Reset()
-    {
-        LoadComponents();
-    }
-
-    private void LoadComponents()
-    {
-        boosterData = Resources.Load<BoosterData>($"Data/{gameObject.name}");
-    }
 
     public void AddMoreBooster(int quantity)
     {
