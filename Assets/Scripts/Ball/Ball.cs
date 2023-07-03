@@ -74,4 +74,10 @@ public class Ball : MonoBehaviour
         EventManager.SetData(EventID.BALL_CONNECTING.ToString(), this.gameObject);
         EventManager.EmitEvent(EventID.BALL_CONNECTING.ToString());
     }
+
+    private void OnDestroy()
+    {
+        EventManager.SetData(EventID.BALL_EXPLODED.ToString(), ballType);
+        EventManager.EmitEvent(EventID.BALL_EXPLODED.ToString());
+    }
 }
