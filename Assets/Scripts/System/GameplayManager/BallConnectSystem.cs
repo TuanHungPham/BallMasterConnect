@@ -48,7 +48,7 @@ public class BallConnectSystem : MonoBehaviour
 
     private void ListenEvent()
     {
-        EventManager.StartListening(EventID.BALL_SELECTING.ToString(), SetBallSelectGameState);
+        EventManager.StartListening(EventID.BALL_SELECTING.ToString(), SelectFirstBall);
         EventManager.StartListening(EventID.BALL_RELEASING.ToString(), ClearAllSelectedBall);
         EventManager.StartListening(EventID.BALL_CONNECTING.ToString(), ConnectBall);
     }
@@ -64,8 +64,11 @@ public class BallConnectSystem : MonoBehaviour
         EventManager.EmitEvent(EventID.CLEARING_SELECTED_BALL.ToString());
     }
 
-    private void SetBallSelectGameState()
+    private void SelectFirstBall()
     {
+        BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
+        if (handler.IsUsingBooster()) return;
+
         firstBall = (GameObject)EventManager.GetData(EventID.BALL_SELECTING.ToString());
 
         Ball ballScript = firstBall.GetComponent<Ball>();

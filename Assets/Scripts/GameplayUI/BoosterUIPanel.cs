@@ -35,6 +35,7 @@ public class BoosterUIPanel : MonoBehaviour
     private void ListenEvent()
     {
         EventManager.StartListening(EventID.BOOSTER_INVENTORY_CHANGE.ToString(), SetInventoryDataUI);
+        EventManager.StartListening(EventID.BOOSTER_USING.ToString(), DeselectAllBooster);
     }
 
     private void InitializeItemButtonList()

@@ -1,3 +1,5 @@
+using System;
+using TigerForge;
 using UnityEngine;
 
 public class Rocket : MonoBehaviour
@@ -34,7 +36,34 @@ public class Rocket : MonoBehaviour
 
     private void Start()
     {
+        HandleBoosterFunction();
         Invoke(nameof(Fly), DELAY_FLY);
+        EmitUsingBoosterEvent();
+    }
+
+    private void HandleBoosterFunction()
+    {
+        BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
+        if (!handler.IsUsingBooster()) return;
+
+        SetPlacementPosition(handler);
+
+        transform.parent.position = handler.GetUsingPoint();
+
+        SetRocketBoosterFunction(handler.GetUsingMatrixPos().row, handler.GetUsingMatrixPos().colum);
+    }
+
+    private void SetPlacementPosition(BoosterUsingHandler handler)
+    {
+        transform.parent.position = handler.GetUsingPoint();
+    }
+
+    private void SetRocketBoosterFunction(int row, int colum)
+    {
+        BallExplosionSystem ballExplosionSystem = ConnectGameplayManager.Instance.GetBallExplosionSystem();
+
+        ballExplosionSystem.ExplodeAllBallInRow(row);
+        ballExplosionSystem.ExplodeAllBallInColum(colum);
     }
 
     private void Fly()
@@ -67,5 +96,10 @@ public class Rocket : MonoBehaviour
     {
         if (transform.parent == null) return;
         Destroy(transform.parent.gameObject, SELF_DESTRUCT_TIME);
+    }
+
+    private void EmitUsingBoosterEvent()
+    {
+        EventManager.EmitEvent(EventID.BOOSTER_USING.ToString());
     }
 }

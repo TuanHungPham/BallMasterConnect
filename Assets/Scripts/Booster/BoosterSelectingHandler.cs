@@ -9,7 +9,6 @@ public class BoosterSelectingHandler : MonoBehaviour
     #region private
     [SerializeField] private Booster currentSelectedBooster;
     [SerializeField] private BoosterID currentSelectedBoosterID;
-    [SerializeField] private bool isUsingItem;
     #endregion
 
     private void Awake()
@@ -37,7 +36,6 @@ public class BoosterSelectingHandler : MonoBehaviour
     {
         currentSelectedBoosterID = (BoosterID)EventManager.GetData(EventID.BOOSTER_SELECTING.ToString());
         GetBoosterFromInventory();
-        isUsingItem = true;
 
         EventManager.EmitEvent(EventID.BOOSTER_SELECTED.ToString());
     }
@@ -46,7 +44,6 @@ public class BoosterSelectingHandler : MonoBehaviour
     {
         currentSelectedBoosterID = BoosterID.NONE;
         currentSelectedBooster = null;
-        isUsingItem = false;
     }
 
     private void GetBoosterFromInventory()
@@ -57,10 +54,5 @@ public class BoosterSelectingHandler : MonoBehaviour
     public Booster GetCurrentSelectedBooster()
     {
         return currentSelectedBooster;
-    }
-
-    public bool IsUsingItem()
-    {
-        return isUsingItem;
     }
 }

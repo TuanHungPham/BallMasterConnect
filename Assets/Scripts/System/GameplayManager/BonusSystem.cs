@@ -15,7 +15,7 @@ public class BonusSystem : MonoBehaviour
 
     [Space(20)]
     [SerializeField] private GameObject rocketBoostPrefab;
-    [SerializeField] private Transform itemPool;
+    [SerializeField] private Transform boosterPool;
     #endregion
 
     private void Awake()
@@ -30,8 +30,8 @@ public class BonusSystem : MonoBehaviour
 
     private void LoadComponents()
     {
-        rocketBoostPrefab = Resources.Load<GameObject>("Prefabs/RocketBoost");
-        itemPool = GameObject.Find("ItemPool").transform;
+        rocketBoostPrefab = Resources.Load<GameObject>("Prefabs/Booster/RocketBooster");
+        boosterPool = GameObject.Find("BoosterPool").transform;
     }
 
     private void Start()
@@ -82,12 +82,12 @@ public class BonusSystem : MonoBehaviour
 
         GameObject rocketBoost = Instantiate(rocketBoostPrefab);
         rocketBoost.transform.position = lastSelectedBallPosition;
-        rocketBoost.transform.SetParent(itemPool, true);
+        rocketBoost.transform.SetParent(boosterPool, true);
 
-        Invoke(nameof(RocketBoostFunction), ROCKET_BOOST_FUNCTION_DELAY);
+        Invoke(nameof(ExplodeByRocket), ROCKET_BOOST_FUNCTION_DELAY);
     }
 
-    private void RocketBoostFunction()
+    private void ExplodeByRocket()
     {
         MatrixPos matrixPos = ConnectGameplayManager.Instance.GetBallConnectSystem().GetLastSelectedBallMatrixPos();
         // Debug.Log("Row: " + matrixPos.row);
