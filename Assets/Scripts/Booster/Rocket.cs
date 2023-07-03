@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TigerForge;
 using UnityEngine;
 
@@ -8,8 +9,6 @@ public class Rocket : MonoBehaviour
     #endregion
 
     #region private
-    private const float DELAY_FLY = 0.2f;
-    private const float SELF_DESTRUCT_TIME = 1f;
     [SerializeField] private float flySpeed;
 
     [Space(20)]
@@ -36,21 +35,23 @@ public class Rocket : MonoBehaviour
 
     private void Start()
     {
-        HandleBoosterFunction();
-        Invoke(nameof(Fly), DELAY_FLY);
+        StartCoroutine(HandleBoosterFunction());
+        Invoke(nameof(Fly), DelayTimeSystem.ROCKET_DELAY_FLY);
         EmitUsingBoosterEvent();
     }
 
-    private void HandleBoosterFunction()
+    IEnumerator HandleBoosterFunction()
     {
         BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
-        if (!handler.IsUsingBooster()) return;
+        if (!handler.IsUsingBooster()) yield break;
 
         SetPlacementPosition(handler);
 
         transform.parent.position = handler.GetUsingPoint();
 
-        SetRocketBoosterFunction(handler.GetUsingMatrixPos().row, handler.GetUsingMatrixPos().colum);
+        yield return new WaitForSeconds(DelayTimeSystem.ROCKET_BOOST_FUNCTION_DELAY);
+
+        SetBoosterFunction(handler.GetUsingMatrixPos().row, handler.GetUsingMatrixPos().colum);
     }
 
     private void SetPlacementPosition(BoosterUsingHandler handler)
@@ -58,7 +59,7 @@ public class Rocket : MonoBehaviour
         transform.parent.position = handler.GetUsingPoint();
     }
 
-    private void SetRocketBoosterFunction(int row, int colum)
+    private void SetBoosterFunction(int row, int colum)
     {
         BallExplosionSystem ballExplosionSystem = ConnectGameplayManager.Instance.GetBallExplosionSystem();
 
@@ -95,7 +96,7 @@ public class Rocket : MonoBehaviour
     private void SelfDestruct()
     {
         if (transform.parent == null) return;
-        Destroy(transform.parent.gameObject, SELF_DESTRUCT_TIME);
+        Destroy(transform.parent.gameObject, DelayTimeSystem.SELF_DESTRUCT_TIME);
     }
 
     private void EmitUsingBoosterEvent()

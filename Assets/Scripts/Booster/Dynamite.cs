@@ -1,5 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
+using TigerForge;
+using System.Collections;
 
 public class Dynamite : MonoBehaviour
 {
@@ -13,16 +15,46 @@ public class Dynamite : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(HandleBoosterFunction());
     }
 
-    private void Update()
+    IEnumerator HandleBoosterFunction()
     {
+        BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
+        if (!handler.IsUsingBooster()) yield break;
+
+        MoveToTargetPoint();
+
+        yield return new WaitForSeconds(DelayTimeSystem.ROCKET_BOOST_FUNCTION_DELAY);
+
+        SetBoosterFunction(handler.GetUsingMatrixPos().row, handler.GetUsingMatrixPos().colum);
     }
 
     private void MoveToTargetPoint()
     {
-        Vector3 targetPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        targetPoint.z = 0;
+        Vector3 targetPoint = BoosterManager.Instance.GetBoosterUsingHandler().GetUsingPoint();
         transform.DOMove(targetPoint, moveTime);
+
+        EmitUsingBoosterEvent();
+
+        SelfDestruct();
     }
+
+    private void SetBoosterFunction(int row, int colum)
+    {
+        BallExplosionSystem ballExplosionSystem = ConnectGameplayManager.Instance.GetBallExplosionSystem();
+
+        ballExplosionSystem.ExplodeAroundPosition(row, colum);
+    }
+
+    private void SelfDestruct()
+    {
+        Destroy(transform.parent.gameObject, DelayTimeSystem.SELF_DESTRUCT_TIME);
+    }
+
+    private void EmitUsingBoosterEvent()
+    {
+        EventManager.EmitEvent(EventID.BOOSTER_USING.ToString());
+    }
+
 }

@@ -7,7 +7,6 @@ public class BonusSystem : MonoBehaviour
     #endregion
 
     #region private
-    private const float ROCKET_BOOST_FUNCTION_DELAY = 0.5f;
     [SerializeField] private int numberOfExplodedBall;
     [SerializeField] private int starBonus;
     [SerializeField] private int minimumForStarBonus;
@@ -84,7 +83,7 @@ public class BonusSystem : MonoBehaviour
         rocketBoost.transform.position = lastSelectedBallPosition;
         rocketBoost.transform.SetParent(boosterPool, true);
 
-        Invoke(nameof(ExplodeByRocket), ROCKET_BOOST_FUNCTION_DELAY);
+        Invoke(nameof(ExplodeByRocket), DelayTimeSystem.ROCKET_BOOST_FUNCTION_DELAY);
     }
 
     private void ExplodeByRocket()

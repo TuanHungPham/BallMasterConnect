@@ -15,4 +15,4 @@ MonoBehaviour:
   boosterName: DynamiteBooster
   boosterID: 2
   boosterType: 1
-  boosterPrefab: {fileID: 6586598034767131298, guid: 68d3ea9518ef19f4996dab6c4af752f3, type: 3}
+  boosterPrefab: {fileID: 2208496421812107707, guid: 921298f2b187ea14b9b280652493ad45, type: 3}
