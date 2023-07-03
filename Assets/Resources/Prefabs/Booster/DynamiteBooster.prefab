@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a041984602afb784286604c16000b9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boosterData: {fileID: 11400000, guid: 6a8ed8ac9b1c0db4190082416cb4ba60, type: 2}
   moveTime: 0.25
 --- !u!1 &2208496421812107707
 GameObject:

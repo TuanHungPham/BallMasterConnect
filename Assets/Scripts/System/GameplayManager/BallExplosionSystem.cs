@@ -95,8 +95,12 @@ public class BallExplosionSystem : MonoBehaviour
 
         for (int i = row - 1; i <= row + 1; i++)
         {
+            if (i < 0 || i >= board.GetLength(0)) continue;
+
             for (int j = colum - 1; j <= colum + 1; j++)
             {
+                if (j < 0 || j >= board.GetLength(1)) continue;
+
                 if (board[i, j].transform.childCount == 0) return;
 
                 ball = ball = board[i, j].transform.GetChild(0).gameObject;

@@ -130,4 +130,9 @@ public class Board : MonoBehaviour
     {
         return mainBoardMatrix;
     }
+
+    public List<BallHolder> GetBallHolderList()
+    {
+        return ballHolderList;
+    }
 }

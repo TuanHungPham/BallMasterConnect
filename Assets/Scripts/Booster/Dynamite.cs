@@ -1,9 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
-using TigerForge;
 using System.Collections;
 
-public class Dynamite : MonoBehaviour
+public class Dynamite : BoosterFunction
 {
     #region public
     #endregion
@@ -13,12 +12,16 @@ public class Dynamite : MonoBehaviour
     private MatrixPos targetPos;
     #endregion
 
-    private void Start()
+    protected override void LoadComponents()
     {
-        StartCoroutine(HandleBoosterFunction());
     }
 
-    IEnumerator HandleBoosterFunction()
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    protected override IEnumerator HandleBoosterFunction()
     {
         BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
         if (!handler.IsUsingBooster()) yield break;
@@ -47,14 +50,13 @@ public class Dynamite : MonoBehaviour
         ballExplosionSystem.ExplodeAroundPosition(row, colum);
     }
 
-    private void SelfDestruct()
+    protected override void SelfDestruct()
     {
-        Destroy(transform.parent.gameObject, DelayTimeSystem.SELF_DESTRUCT_TIME);
+        base.SelfDestruct();
     }
 
-    private void EmitUsingBoosterEvent()
+    protected override void EmitUsingBoosterEvent()
     {
-        EventManager.EmitEvent(EventID.BOOSTER_USING.ToString());
+        base.EmitUsingBoosterEvent();
     }
-
 }

@@ -15,4 +15,4 @@ MonoBehaviour:
   boosterName: ShuffleBooster
   boosterID: 3
   boosterType: 2
-  boosterPrefab: {fileID: 7775127893732658584, guid: 27b76e0fa981fb64c88dacc9a9de4072, type: 3}
+  boosterPrefab: {fileID: 6394814042049903423, guid: 27b76e0fa981fb64c88dacc9a9de4072, type: 3}

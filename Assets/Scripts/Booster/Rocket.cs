@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using TigerForge;
 using UnityEngine;
 
-public class Rocket : MonoBehaviour
+public class Rocket : BoosterFunction
 {
     #region public
     #endregion
@@ -16,35 +14,35 @@ public class Rocket : MonoBehaviour
     private string objName;
     #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
-        LoadComponents();
+        base.Awake();
     }
 
-    private void Reset()
+    protected override void Reset()
     {
-        LoadComponents();
+        base.Reset();
     }
 
-    private void LoadComponents()
+    protected override void LoadComponents()
     {
         rb2d = GetComponent<Rigidbody2D>();
 
         objName = gameObject.name;
     }
 
-    private void Start()
+    protected override void Start()
     {
-        StartCoroutine(HandleBoosterFunction());
+        base.Start();
         Invoke(nameof(Fly), DelayTimeSystem.ROCKET_DELAY_FLY);
-        EmitUsingBoosterEvent();
     }
 
-    IEnumerator HandleBoosterFunction()
+    protected override IEnumerator HandleBoosterFunction()
     {
         BoosterUsingHandler handler = BoosterManager.Instance.GetBoosterUsingHandler();
         if (!handler.IsUsingBooster()) yield break;
 
+        EmitUsingBoosterEvent();
         SetPlacementPosition(handler);
 
         transform.parent.position = handler.GetUsingPoint();
@@ -93,14 +91,13 @@ public class Rocket : MonoBehaviour
         SelfDestruct();
     }
 
-    private void SelfDestruct()
+    protected override void SelfDestruct()
     {
-        if (transform.parent == null) return;
-        Destroy(transform.parent.gameObject, DelayTimeSystem.SELF_DESTRUCT_TIME);
+        base.SelfDestruct();
     }
 
-    private void EmitUsingBoosterEvent()
+    protected override void EmitUsingBoosterEvent()
     {
-        EventManager.EmitEvent(EventID.BOOSTER_USING.ToString());
+        base.EmitUsingBoosterEvent();
     }
 }

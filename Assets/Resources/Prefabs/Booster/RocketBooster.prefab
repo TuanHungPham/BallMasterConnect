@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db404f3d52231844889f585c7b880b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boosterData: {fileID: 11400000, guid: f7ae95160e0815d4cbd9b9cf92f29b5c, type: 2}
   flySpeed: 20
   rb2d: {fileID: 7323979267952677819}
 --- !u!1 &7323979268742050854
@@ -220,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db404f3d52231844889f585c7b880b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boosterData: {fileID: 11400000, guid: f7ae95160e0815d4cbd9b9cf92f29b5c, type: 2}
   flySpeed: 20
   rb2d: {fileID: 7323979268742050852}
 --- !u!1 &7323979268847939742
@@ -408,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db404f3d52231844889f585c7b880b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boosterData: {fileID: 11400000, guid: f7ae95160e0815d4cbd9b9cf92f29b5c, type: 2}
   flySpeed: 20
   rb2d: {fileID: 7323979269117228739}
 --- !u!1 &7323979269173582381
@@ -477,6 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db404f3d52231844889f585c7b880b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boosterData: {fileID: 11400000, guid: f7ae95160e0815d4cbd9b9cf92f29b5c, type: 2}
   flySpeed: 20
   rb2d: {fileID: 7323979269173582379}
 --- !u!1 &7323979269266895266

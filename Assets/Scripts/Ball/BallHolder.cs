@@ -92,6 +92,12 @@ public class BallHolder : MonoBehaviour
         IsEmpty = false;
     }
 
+    public void ClearBallHolding()
+    {
+        GameObject ball = transform.GetChild(0).gameObject;
+        Destroy(ball);
+    }
+
     private void CheckBallInHolder()
     {
         if (transform.childCount != 0)

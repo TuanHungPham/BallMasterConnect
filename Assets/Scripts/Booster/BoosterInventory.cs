@@ -28,6 +28,12 @@ public class BoosterInventory : MonoBehaviour
     private void Start()
     {
         Invoke(nameof(EmitEventInventroyChange), 0);
+        ListenEvent();
+    }
+
+    private void ListenEvent()
+    {
+        EventManager.StartListening(EventID.BOOSTER_USING.ToString(), ConsumpBoosterInInventory);
     }
 
     private void EmitEventInventroyChange()
@@ -46,6 +52,19 @@ public class BoosterInventory : MonoBehaviour
 
         booster.AddMoreBooster(quantity);
         boosterInventoryList.Add(booster);
+    }
+
+    public void ConsumpBoosterInInventory()
+    {
+        BoosterData boosterData = (BoosterData)EventManager.GetData(EventID.BOOSTER_USING.ToString());
+
+        Booster booster = boosterInventoryList.Find((x) => x.GetBoosterData() == boosterData);
+        int index = boosterInventoryList.IndexOf(booster);
+        boosterInventoryList[index].ConsumpBooster();
+
+        Debug.Log("Consumping Booster...");
+
+        EmitEventInventroyChange();
     }
 
     public Booster GetBoosterInInventory(BoosterID boosterID)
