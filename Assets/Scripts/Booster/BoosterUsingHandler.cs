@@ -110,7 +110,7 @@ public class BoosterUsingHandler : MonoBehaviour
 
     private void UnchoosePlacement()
     {
-        SetDarkScreen(false);
+        ResetUsingFunction();
     }
 
     private void SetDarkScreen(bool set)

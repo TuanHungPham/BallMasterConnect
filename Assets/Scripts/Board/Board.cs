@@ -43,11 +43,12 @@ public class Board : MonoBehaviour
     private void Start()
     {
         InitializeNewBoard();
+        ListenEvent();
     }
 
-    private void Update()
+    private void ListenEvent()
     {
-        HandleShiftBoardDown();
+        EventManager.StartListening(EventID.BALL_EXPLOSION.ToString(), HandleShiftBoardDown);
     }
 
     private void InitializeNewBoard()
@@ -85,10 +86,13 @@ public class Board : MonoBehaviour
 
     private void HandleShiftBoardDown()
     {
+        int emptyHolderCount = 0;
+
         foreach (var holder in ballHolderList)
         {
             if (!holder.IsEmpty) continue;
 
+            emptyHolderCount++;
             MatrixPos currentHolderMatrixPos = holder.matrixPos;
             if (currentHolderMatrixPos.row == 0)
             {
@@ -103,20 +107,21 @@ public class Board : MonoBehaviour
 
             if (aboveBallHolder.IsEmpty) continue;
 
-            ShiftBallInCurrentBoard(holder, aboveBallHolder);
+            ShiftBallDown(holder, aboveBallHolder);
+        }
+
+        if (emptyHolderCount > 0)
+        {
+            HandleShiftBoardDown();
         }
     }
 
-    private void ShiftBallInCurrentBoard(BallHolder currentHolder, BallHolder aboveBallHolder)
+    private void ShiftBallDown(BallHolder currentHolder, BallHolder aboveBallHolder)
     {
-        currentHolder.SetCurrentBallHolding(aboveBallHolder.GetCurrentBallHolding());
-        currentHolder.IsEmpty = false;
-
         aboveBallHolder.GetCurrentBallHolding().transform.SetParent(currentHolder.transform);
+        currentHolder.CheckBallInHolder();
+        aboveBallHolder.CheckBallInHolder();
         currentHolder.GetCurrentBallHolding().transform.DOMoveY(currentHolder.transform.position.y, ballDropTime);
-
-        aboveBallHolder.SetCurrentBallHolding(null);
-        aboveBallHolder.IsEmpty = true;
 
         EmitShiftBoardDownEvent();
     }

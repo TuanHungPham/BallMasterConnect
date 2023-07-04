@@ -270,7 +270,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
-  ballType: 0
+  ballSprite: {fileID: 152069087194344419}
+  ballType: 5
+  currentBallHolder: {fileID: 0}
 --- !u!114 &3741687660979129125
 MonoBehaviour:
   m_ObjectHideFlags: 0

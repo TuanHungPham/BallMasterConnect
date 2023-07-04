@@ -57,7 +57,8 @@ public class BallHolder : MonoBehaviour
 
     private void ListenEvent()
     {
-        EventManager.StartListening(EventID.BALL_EXPLOSION.ToString(), CheckBallInHolder);
+        EventManager.StartListening(EventID.BALL_EXPLODED.ToString(), CheckBallInHolder);
+        EventManager.StartListening(EventID.BOARD_SHIFTING_DOWN.ToString(), CheckBallInHolder);
     }
 
     private void InitializeBallList()
@@ -98,16 +99,17 @@ public class BallHolder : MonoBehaviour
         Destroy(ball);
     }
 
-    private void CheckBallInHolder()
+    public void CheckBallInHolder()
     {
         if (transform.childCount != 0)
         {
+            SetCurrentBallHolding(transform.GetChild(0).gameObject);
             IsEmpty = false;
             // Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is holding a Ball!");
             return;
         }
 
-        currentBallHolding = null;
+        SetCurrentBallHolding(null);
         IsEmpty = true;
         // Debug.Log($"Holder [{matrixPos.row},{matrixPos.colum}] is empty!");
     }

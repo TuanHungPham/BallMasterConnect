@@ -11,21 +11,41 @@ public class Ball : MonoBehaviour
 
     #region private
     [SerializeField] private bool isSelected;
+
+    [Space(20)]
+    [SerializeField] private SpriteRenderer ballSprite;
     [SerializeField] private BallType ballType;
     [SerializeField] private BallHolder currentBallHolder;
     private MatrixPos matrixPos;
     #endregion
 
+    private void Awake()
+    {
+        LoadComponents();
+    }
+
+    private void Reset()
+    {
+        LoadComponents();
+    }
+
+    private void LoadComponents()
+    {
+        ballSprite = GetComponentInChildren<SpriteRenderer>();
+    }
+
     private void Start()
     {
         ListenEvent();
         SetBallHolderComponent();
+        HideBall();
     }
 
     private void ListenEvent()
     {
         EventManager.StartListening(EventID.CLEARING_SELECTED_BALL.ToString(), DeselectBall);
         EventManager.StartListening(EventID.BOARD_SHIFTING_DOWN.ToString(), SetBallHolderComponent);
+        EventManager.StartListening(EventID.BALL_RELEASING.ToString(), HideBall);
     }
 
     private void SetBallHolderComponent()
@@ -39,9 +59,14 @@ public class Ball : MonoBehaviour
         matrixPos.SetMatrixPos(currentBallHolder.matrixPos.row, currentBallHolder.matrixPos.colum);
     }
 
-    public MatrixPos GetBallMatrixPosition()
+    public void ShowBall()
     {
-        return matrixPos;
+        ballSprite.sortingOrder = 1;
+    }
+
+    public void HideBall()
+    {
+        ballSprite.sortingOrder = -1;
     }
 
     public void SelectBall()
@@ -52,6 +77,16 @@ public class Ball : MonoBehaviour
     public void DeselectBall()
     {
         IsSelected = false;
+    }
+
+    public MatrixPos GetBallMatrixPosition()
+    {
+        return matrixPos;
+    }
+
+    public BallType GetBallType()
+    {
+        return ballType;
     }
 
     private void OnMouseDown()
