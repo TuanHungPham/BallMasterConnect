@@ -53,7 +53,7 @@ public class BonusSystem : MonoBehaviour
     private void GetNumberOfExplodedBall()
     {
         numberOfExplodedBall = ConnectGameplayManager.Instance.GetBallExplosionSystem().BallCount;
-        Debug.Log("Number of Exploded Ball: " + numberOfExplodedBall);
+        // Debug.Log("Number of Exploded Ball: " + numberOfExplodedBall);
     }
 
     private void GetStarBonus()
@@ -62,7 +62,7 @@ public class BonusSystem : MonoBehaviour
 
         starBonus = numberOfExplodedBall;
 
-        Debug.Log($"You've just rewarded {starBonus} Stars!");
+        // Debug.Log($"You've just rewarded {starBonus} Stars!");
     }
 
     private void GetRocketBonus()
@@ -70,7 +70,6 @@ public class BonusSystem : MonoBehaviour
         if (numberOfExplodedBall < minimumForRocket) return;
 
         CreateRocketBoost();
-        Debug.Log("Rocket incoming...");
 
         numberOfExplodedBall = 0;
     }

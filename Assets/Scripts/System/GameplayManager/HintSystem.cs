@@ -55,12 +55,12 @@ public class HintSystem : MonoBehaviour
         CheckHintBall(firstBall, matrixBoard);
     }
 
-    private void CheckHintBall(Ball ballScript, GameObject[,] board)
+    private void CheckHintBall(Ball firstBall, GameObject[,] board)
     {
-        ballScript.ShowBall();
-        listOfHintBall.Add(ballScript);
+        firstBall.ShowBall();
+        listOfHintBall.Add(firstBall);
 
-        MatrixPos ballMatrixPos = ballScript.GetBallMatrixPosition();
+        MatrixPos ballMatrixPos = firstBall.GetBallMatrixPosition();
 
         for (int i = ballMatrixPos.row - 1; i <= ballMatrixPos.row + 1; i++)
         {
@@ -71,9 +71,11 @@ public class HintSystem : MonoBehaviour
                 if (j < 0 || j >= board.GetLength(1)) continue;
 
                 BallHolder ballHolder = board[i, j].GetComponent<BallHolder>();
+                if (ballHolder.GetCurrentBallHolding() == null) continue;
+
                 Ball currentCheckBall = ballHolder.GetCurrentBallHolding().GetComponent<Ball>();
 
-                if (currentCheckBall.GetBallType() == ballScript.GetBallType() && !listOfHintBall.Contains(currentCheckBall))
+                if (currentCheckBall.GetBallType() == firstBall.GetBallType() && !listOfHintBall.Contains(currentCheckBall))
                 {
                     listOfHintBall.Add(currentCheckBall);
                     currentCheckBall.ShowBall();

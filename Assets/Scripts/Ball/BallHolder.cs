@@ -58,7 +58,6 @@ public class BallHolder : MonoBehaviour
     private void ListenEvent()
     {
         EventManager.StartListening(EventID.BALL_EXPLODED.ToString(), CheckBallInHolder);
-        EventManager.StartListening(EventID.BOARD_SHIFTING_DOWN.ToString(), CheckBallInHolder);
     }
 
     private void InitializeBallList()
@@ -101,6 +100,7 @@ public class BallHolder : MonoBehaviour
 
     public void CheckBallInHolder()
     {
+        Debug.Log("Checking ball in holder...");
         if (transform.childCount != 0)
         {
             SetCurrentBallHolding(transform.GetChild(0).gameObject);

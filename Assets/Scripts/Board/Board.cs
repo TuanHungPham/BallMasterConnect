@@ -90,6 +90,7 @@ public class Board : MonoBehaviour
 
         foreach (var holder in ballHolderList)
         {
+            holder.CheckBallInHolder();
             if (!holder.IsEmpty) continue;
 
             emptyHolderCount++;
@@ -104,9 +105,10 @@ public class Board : MonoBehaviour
 
             GameObject aboveHolder = mainBoardMatrix[aboveRow, currentHolderMatrixPos.colum];
             BallHolder aboveBallHolder = aboveHolder.GetComponent<BallHolder>();
+            aboveBallHolder.CheckBallInHolder();
 
             if (aboveBallHolder.IsEmpty) continue;
-
+            Debug.Log("Shiftting ball down...");
             ShiftBallDown(holder, aboveBallHolder);
         }
 
@@ -114,6 +116,8 @@ public class Board : MonoBehaviour
         {
             HandleShiftBoardDown();
         }
+
+        EmitShiftBoardDownEvent();
     }
 
     private void ShiftBallDown(BallHolder currentHolder, BallHolder aboveBallHolder)
@@ -122,8 +126,6 @@ public class Board : MonoBehaviour
         currentHolder.CheckBallInHolder();
         aboveBallHolder.CheckBallInHolder();
         currentHolder.GetCurrentBallHolding().transform.DOMoveY(currentHolder.transform.position.y, ballDropTime);
-
-        EmitShiftBoardDownEvent();
     }
 
     private void EmitShiftBoardDownEvent()

@@ -12,6 +12,7 @@ public class BallCount : MonoBehaviour
     [SerializeField] private int ball2Count;
     [SerializeField] private int ball3Count;
     [SerializeField] private int ball4Count;
+    [SerializeField] private int totalBallCount;
     #endregion
 
     private void Start()
@@ -27,6 +28,8 @@ public class BallCount : MonoBehaviour
     private void CountExplodedBall()
     {
         BallType ballType = (BallType)EventManager.GetData(EventID.BALL_EXPLODED.ToString());
+
+        totalBallCount++;
 
         switch (ballType)
         {

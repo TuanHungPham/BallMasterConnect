@@ -93,8 +93,6 @@ public class Ball : MonoBehaviour
     {
         EventManager.SetData(EventID.BALL_SELECTING.ToString(), this.gameObject);
         EventManager.EmitEvent(EventID.BALL_SELECTING.ToString());
-
-        Debug.Log($"Clicking at {gameObject.name}");
     }
 
     private void OnMouseUp()
